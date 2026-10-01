@@ -91,7 +91,7 @@ Status legend: ✅ exists · 🟡 partial (needs a unifying abstraction layer) �
 | spring-integration | `gospring-integration` (EIP) | ❌ |
 | spring-amqp / spring-kafka / spring-pulsar | `starter-nats` + Kafka/Pulsar/Rabbit/RocketMQ/MQTT | ✅ |
 | spring-retry | `cloud/governance` (retry) | ✅ as governance |
-| spring-scheduling (`@Scheduled`/`@Async`) | `cloud/scheduling`, `starter-scheduler` | ✅ |
+| spring-scheduling (`@Scheduled`/`@Async`) | `cloud/scheduling` + `gs-sched-gen` (`@Scheduled` codegen) + `scheduling.Submit`/`Future` (`@Async`) | ✅ codegen + async primitive, proven end to end |
 | spring cache abstraction (`@Cacheable`) | `cloud/cache` + `gs-cache-gen` annotations | ✅ `@Cacheable`/`@CachePut`/`@CacheEvict` codegen over `cloud/cache`, proven end to end |
 
 ### Spring Modulith  ← **second build target**
@@ -119,8 +119,11 @@ Status legend: ✅ exists · 🟡 partial (needs a unifying abstraction layer) �
    `gs-cache-gen` generator emitting `@Cacheable`/`@CachePut`/`@CacheEvict`
    cache-aside decorators over `cloud/cache`. Proven end to end against an
    in-memory cache.
-4. Fill ❌ rows above, closest-existing-module-as-template each time. Next
-   highest-value: `gospring-scheduling` (`@Scheduled`/`@Async` codegen, reuses
-   the gs-cache-gen directive pattern), then GraphQL and Integration (EIP).
+4. **`gospring-scheduling`** — ✅ **DONE.** `scheduling.Submit`/`Future` (the
+   `@Async` primitive) + the `gs-sched-gen` generator emitting a scheduler
+   `Register` function from `//schedule:` directives (fixedRate/fixedDelay/cron).
+   Proven end to end: generated registration fires jobs on a real scheduler.
+5. Fill ❌ rows above, closest-existing-module-as-template each time. Next
+   highest-value: GraphQL, Integration (EIP), Shell, Statemachine.
 
 > Conventions every module follows: `starter/DESIGN.md` + per-module `DESIGN`/`USAGE`.

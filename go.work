@@ -242,6 +242,7 @@ use (
 	./starter/starter-governance-sentinel
 	./starter/starter-governance-sentinel/example
 	./starter/starter-governance/example
+	./starter/starter-graphql
 	./starter/starter-http-client
 	./starter/starter-http-client/example
 	./starter/starter-http-client/example-load

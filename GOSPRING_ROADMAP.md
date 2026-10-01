@@ -48,7 +48,7 @@ Status legend: ✅ exists · 🟡 partial (needs a unifying abstraction layer) �
 |---|---|---|
 | spring-webmvc | `starter-gin`/`-echo`/`-http-server` | ✅ (as starters) |
 | spring-webflux (reactive) | — | ❌ (Go uses goroutines, not reactive streams) |
-| spring-hateoas | `gospring-hateoas` | ❌ |
+| spring-hateoas | `cloud/hateoas` | ✅ Link + Entity/Collection models + HAL `_links` serialisation (affordances pending) |
 | spring-graphql | `gospring-graphql` | ❌ |
 | spring-web-services (SOAP) | `gospring-ws` | ❌ |
 
@@ -132,7 +132,9 @@ Status legend: ✅ exists · 🟡 partial (needs a unifying abstraction layer) �
 7. **`gospring-integration`** — ✅ **DONE.** `cloud/integration`: typed Message +
    Channel/DirectChannel and the core EIP endpoints (filter/transform/split/
    route/bridge/handle). Fully tested with a worked multi-stage flow.
-8. Fill ❌ rows above, closest-existing-module-as-template each time. Next
-   highest-value: GraphQL, HATEOAS, REST Docs.
+8. **`gospring-hateoas`** — ✅ **DONE.** `cloud/hateoas`: Link + Entity/Collection
+   models rendering HAL `_links`. Fully tested.
+9. Fill ❌ rows above, closest-existing-module-as-template each time. Next
+   highest-value: GraphQL, REST Docs, devtools.
 
 > Conventions every module follows: `starter/DESIGN.md` + per-module `DESIGN`/`USAGE`.

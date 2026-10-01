@@ -36,6 +36,7 @@ use (
 	./gs/gs-http-gen/examples/go
 	./gs/gs-mock
 	./gs/gs-modulith
+	./gs/gs-sched-gen
 	./layout
 	./log
 	./log/benchmarks/fields

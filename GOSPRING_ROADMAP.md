@@ -106,7 +106,7 @@ Status legend: ✅ exists · 🟡 partial (needs a unifying abstraction layer) �
 |---|---|---|
 | spring-shell | `cloud/shell` | ✅ command registry + REPL + quote-aware parsing + help/exit (completion/history pending) |
 | spring-statemachine | `cloud/statemachine` | ✅ typed FSM: guarded transitions, entry/exit/transition actions, listeners, extended state (hierarchical states pending) |
-| spring-rest-docs | `gospring-restdocs` | ❌ |
+| spring-rest-docs | `cloud/restdocs` | ✅ test-driven snippet generation (curl/http/fields) with bidirectional field validation (nested paths + asciidoc pending) |
 
 ## Build order (each module is the template for the next)
 
@@ -141,7 +141,10 @@ Status legend: ✅ exists · 🟡 partial (needs a unifying abstraction layer) �
 10. **`gospring-stomp`** — ✅ **DONE.** `cloud/stomp`: STOMP frame codec,
     destination `SimpleBroker`, `SimpMessagingTemplate` and an `@MessageMapping`
     /`@SendTo` dispatcher. WebSocket transport (starters) plugs in beneath it.
-11. Fill ❌ rows above, closest-existing-module-as-template each time. Next
-    highest-value: GraphQL, REST Docs, devtools.
+11. **`gospring-restdocs`** — ✅ **DONE.** `cloud/restdocs`: test-driven API
+    snippet generation with bidirectional field-coverage validation.
+12. Fill ❌ rows above, closest-existing-module-as-template each time. Remaining:
+    GraphQL (needs an engine decision), SOAP web services, WebFlux (reactive),
+    devtools.
 
 > Conventions every module follows: `starter/DESIGN.md` + per-module `DESIGN`/`USAGE`.

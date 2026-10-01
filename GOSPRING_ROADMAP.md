@@ -102,7 +102,7 @@ Status legend: ✅ exists · 🟡 partial (needs a unifying abstraction layer) �
 ### Other
 | Spring project | GoSpring module | Status |
 |---|---|---|
-| spring-shell | `gospring-shell` | ❌ |
+| spring-shell | `cloud/shell` | ✅ command registry + REPL + quote-aware parsing + help/exit (completion/history pending) |
 | spring-statemachine | `cloud/statemachine` | ✅ typed FSM: guarded transitions, entry/exit/transition actions, listeners, extended state (hierarchical states pending) |
 | spring-rest-docs | `gospring-restdocs` | ❌ |
 
@@ -127,7 +127,9 @@ Status legend: ✅ exists · 🟡 partial (needs a unifying abstraction layer) �
    a fluent builder, guarded transitions, entry/exit/transition actions,
    listeners and extended-state variables. Fully unit-tested (turnstile, guard
    choice, action-abort, listeners).
-6. Fill ❌ rows above, closest-existing-module-as-template each time. Next
-   highest-value: GraphQL, Integration (EIP), Shell.
+6. **`gospring-shell`** — ✅ **DONE.** `cloud/shell`: command registry, REPL over
+   injected reader/writer, quote-aware parsing, built-in help/exit. Fully tested.
+7. Fill ❌ rows above, closest-existing-module-as-template each time. Next
+   highest-value: Integration (EIP), GraphQL, HATEOAS.
 
 > Conventions every module follows: `starter/DESIGN.md` + per-module `DESIGN`/`USAGE`.

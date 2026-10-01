@@ -55,8 +55,8 @@ Status legend: ✅ exists · 🟡 partial (needs a unifying abstraction layer) �
 ### Spring Data  ← **first build target**
 | Spring project | GoSpring module | Status |
 |---|---|---|
-| spring-data-commons (`CrudRepository`, `PagingAndSortingRepository`, derived queries, `@Query`, auditing, `Specification`) | `cloud/data` (abstraction) + `gospring-data` codegen | ❌ the unifying layer |
-| spring-data-jpa | `starter-data-gorm` (binds abstraction → GORM) | 🟡 GORM starters exist |
+| spring-data-commons (`CrudRepository`, `PagingAndSortingRepository`, derived queries, `@Query`, auditing, `Specification`) | `cloud/data` (abstraction) + `gs-data-gen` codegen | ✅ abstraction + derived-query parser + generator done |
+| spring-data-jpa | `starter-data-gorm` (binds abstraction → GORM) | ✅ CRUD + paging + derived-query executors, tested over sqlite |
 | spring-data-mongodb | `starter-data-mongo` | 🟡 |
 | spring-data-redis | `starter-data-redis` | 🟡 go-redis/redigo exist |
 | spring-data-elasticsearch | `starter-data-elasticsearch` | 🟡 |
@@ -108,9 +108,10 @@ Status legend: ✅ exists · 🟡 partial (needs a unifying abstraction layer) �
 
 ## Build order (each module is the template for the next)
 
-1. **`gospring-data`** — `cloud/data` abstraction (`Repository[T,ID]`, `CrudRepository`,
-   `PagingAndSortingRepository`, `Pageable`, `Sort`, `Specification`) + a derived-query
-   code generator, + `starter-data-gorm` as the first binding. Highest reuse.
+1. **`gospring-data`** — ✅ **DONE.** `cloud/data` abstraction (`Repository[T,ID]`,
+   `CrudRepository`, `PagingAndSortingRepository`, `Pageable`, `Sort`) + derived-query
+   parser (`ParseMethod`), `starter-data-gorm` binding (`Query`→GORM translator +
+   executors), and the `gs-data-gen` generator. Proven end to end over sqlite.
 2. **`gospring-modulith`** — module declaration, build-time allowed-dependency check,
    in-process module events. Natural fit for Go's package/`internal` system.
 3. Fill ❌ rows above, closest-existing-module-as-template each time.

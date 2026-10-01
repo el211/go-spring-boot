@@ -78,6 +78,6 @@ miss is never counted as a success. Property values never appear as labels.
 - [x] Core abstraction (`CrudRepository`, `PagingAndSortingRepository`, `Sort`, `Pageable`, `Page`)
 - [x] Derived-query parser (`ParseMethod` → `Query`)
 - [x] Observability seam (`Observe`)
-- [ ] `starter-data-gorm` — first backend binding + translator (`Query` → GORM)
-- [ ] `gospring-data` generator — emit method bodies from `//go:generate`
+- [x] `starter-data-gorm` — first backend binding + translator (`Query` → GORM)
+- [x] `gs-data-gen` generator — emits method bodies from `//go:generate`
 - [ ] Further bindings: mongo, redis, elasticsearch

@@ -1,0 +1,118 @@
+# GoSpring: 1:1 Spring Boot Port — Roadmap & Module Inventory
+
+Goal: reproduce every major Spring project as a `gospring-*` counterpart with the
+same public surface (names, module layout, starter structure, annotation-style
+tags, `@EnableX` toggles). This document is the spec: each row is a module we
+commit to build.
+
+## Translation rules (how 1:1 maps to Go)
+
+| Spring (JVM) mechanism | GoSpring equivalent | Literal 1:1? |
+|---|---|---|
+| IoC container / DI | `gs.Provide` + constructor injection (already here) | ✅ behavioral |
+| `@Autowired` / `@Component` | wiring via `gs.Object` / `gs.Provide` + struct tags | ✅ behavioral |
+| `@ConfigurationProperties` | layered config engine + `gs.Dync[T]` | ✅ already here |
+| Starters (`spring-boot-starter-*`) | `starter/starter-*` modules | ✅ already here |
+| Annotations (`@Entity`, `@Query`, …) | struct tags + marker comments | ✅ syntactic analog |
+| Runtime proxies (Spring Data derived queries) | **build-time codegen** (like `gs-http-gen`) | ⚠️ same API, codegen not proxy |
+| Classpath scanning | Go linker visibility + registration-on-import | ⚠️ same effect, explicit import |
+| AOP weaving | generated wrappers / middleware | ⚠️ same effect, no weaving |
+
+Everything marked ⚠️ gives the **same developer-facing API**; only the underlying
+mechanism differs (codegen at build, not proxies at runtime). This is the only
+unavoidable compromise porting to a statically compiled language.
+
+## Module inventory
+
+Status legend: ✅ exists · 🟡 partial (needs a unifying abstraction layer) · ❌ missing
+
+### Core framework (Spring Framework)
+| Spring project | GoSpring module | Status | Notes |
+|---|---|---|---|
+| spring-core (IoC/DI) | `spring/gs` | ✅ | constructor DI |
+| spring-context (events, i18n, validation) | `spring/gs` + `stdlib/i18n`, `stdlib/validation` | 🟡 | app-event bus missing |
+| spring-expression (SpEL) | `spring/conf` (expr-lang) | 🟡 | expression engine exists, no SpEL-parity API |
+| spring-aop | — | ❌ | reproduce via generated interceptors |
+| spring-test | `gs.RunTest` + `gs-mock` | ✅ | |
+
+### Spring Boot
+| Spring project | GoSpring module | Status |
+|---|---|---|
+| spring-boot (auto-config, lifecycle) | `spring` | ✅ |
+| spring-boot-starter-* | `starter/*` (90+) | ✅ |
+| spring-boot-actuator | `cloud/actuator`, `starter-actuator` | ✅ |
+| spring-boot-devtools | — | ❌ |
+
+### Web (Spring MVC / WebFlux)
+| Spring project | GoSpring module | Status |
+|---|---|---|
+| spring-webmvc | `starter-gin`/`-echo`/`-http-server` | ✅ (as starters) |
+| spring-webflux (reactive) | — | ❌ (Go uses goroutines, not reactive streams) |
+| spring-hateoas | `gospring-hateoas` | ❌ |
+| spring-graphql | `gospring-graphql` | ❌ |
+| spring-web-services (SOAP) | `gospring-ws` | ❌ |
+
+### Spring Data  ← **first build target**
+| Spring project | GoSpring module | Status |
+|---|---|---|
+| spring-data-commons (`CrudRepository`, `PagingAndSortingRepository`, derived queries, `@Query`, auditing, `Specification`) | `cloud/data` (abstraction) + `gospring-data` codegen | ❌ the unifying layer |
+| spring-data-jpa | `starter-data-gorm` (binds abstraction → GORM) | 🟡 GORM starters exist |
+| spring-data-mongodb | `starter-data-mongo` | 🟡 |
+| spring-data-redis | `starter-data-redis` | 🟡 go-redis/redigo exist |
+| spring-data-elasticsearch | `starter-data-elasticsearch` | 🟡 |
+| spring-data-rest | `gospring-data-rest` | ❌ |
+
+### Spring Security
+| Spring project | GoSpring module | Status |
+|---|---|---|
+| spring-security-core/web (authn/authz, method security) | `cloud/security` | ✅ Casbin |
+| spring-security-oauth2-client/resource | `starter-*` oauth2 | ✅ |
+| spring-authorization-server | oauth2 server | ✅ |
+| spring-session | session-redis | ✅ |
+
+### Spring Cloud
+| Spring project | GoSpring module | Status |
+|---|---|---|
+| spring-cloud-config | `starter-config-*` (7 sources) | ✅ |
+| spring-cloud-gateway | `gospring-gateway` | 🟡 gateway listed, verify |
+| spring-cloud-openfeign | `starter-http-client` + `gs-http-gen` | ✅ |
+| spring-cloud-loadbalancer | `cloud/loadbalance` | ✅ |
+| spring-cloud-circuitbreaker | `cloud/governance` | ✅ |
+| spring-cloud-netflix/discovery | `cloud/discovery` + `starter-registry-*` | ✅ |
+| spring-cloud-stream | `cloud/messaging` + MQ starters | ✅ |
+| spring-cloud-bus | `starter-config-bus` | ✅ |
+| spring-cloud-sleuth / micrometer-tracing | `cloud/observability` + `starter-otel` | ✅ |
+| spring-cloud-contract | `gospring-contract` | ❌ |
+
+### Enterprise integration & jobs
+| Spring project | GoSpring module | Status |
+|---|---|---|
+| spring-batch | `cloud/` batch + `starter-scheduler` | 🟡 |
+| spring-integration | `gospring-integration` (EIP) | ❌ |
+| spring-amqp / spring-kafka / spring-pulsar | `starter-nats` + Kafka/Pulsar/Rabbit/RocketMQ/MQTT | ✅ |
+| spring-retry | `cloud/governance` (retry) | ✅ as governance |
+| spring-scheduling (`@Scheduled`/`@Async`) | `cloud/scheduling`, `starter-scheduler` | ✅ |
+| spring cache abstraction (`@Cacheable`) | `cloud/cache` + `gospring-cache` annotations | 🟡 needs @Cacheable-style codegen |
+
+### Spring Modulith  ← **second build target**
+| Spring project | GoSpring module | Status |
+|---|---|---|
+| spring-modulith (module boundaries, allowed-deps verification, module events, docs) | `gospring-modulith` | ❌ |
+
+### Other
+| Spring project | GoSpring module | Status |
+|---|---|---|
+| spring-shell | `gospring-shell` | ❌ |
+| spring-statemachine | `gospring-statemachine` | ❌ |
+| spring-rest-docs | `gospring-restdocs` | ❌ |
+
+## Build order (each module is the template for the next)
+
+1. **`gospring-data`** — `cloud/data` abstraction (`Repository[T,ID]`, `CrudRepository`,
+   `PagingAndSortingRepository`, `Pageable`, `Sort`, `Specification`) + a derived-query
+   code generator, + `starter-data-gorm` as the first binding. Highest reuse.
+2. **`gospring-modulith`** — module declaration, build-time allowed-dependency check,
+   in-process module events. Natural fit for Go's package/`internal` system.
+3. Fill ❌ rows above, closest-existing-module-as-template each time.
+
+> Conventions every module follows: `starter/DESIGN.md` + per-module `DESIGN`/`USAGE`.

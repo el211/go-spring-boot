@@ -30,6 +30,7 @@ use (
 	./gs/experimental/gs-k8s
 	./gs/experimental/gs-serve
 	./gs/gs
+	./gs/gs-cache-gen
 	./gs/gs-data-gen
 	./gs/gs-http-gen
 	./gs/gs-http-gen/examples/go

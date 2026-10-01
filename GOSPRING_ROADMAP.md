@@ -92,7 +92,7 @@ Status legend: ✅ exists · 🟡 partial (needs a unifying abstraction layer) �
 | spring-amqp / spring-kafka / spring-pulsar | `starter-nats` + Kafka/Pulsar/Rabbit/RocketMQ/MQTT | ✅ |
 | spring-retry | `cloud/governance` (retry) | ✅ as governance |
 | spring-scheduling (`@Scheduled`/`@Async`) | `cloud/scheduling`, `starter-scheduler` | ✅ |
-| spring cache abstraction (`@Cacheable`) | `cloud/cache` + `gospring-cache` annotations | 🟡 needs @Cacheable-style codegen |
+| spring cache abstraction (`@Cacheable`) | `cloud/cache` + `gs-cache-gen` annotations | ✅ `@Cacheable`/`@CachePut`/`@CacheEvict` codegen over `cloud/cache`, proven end to end |
 
 ### Spring Modulith  ← **second build target**
 | Spring project | GoSpring module | Status |
@@ -115,6 +115,12 @@ Status legend: ✅ exists · 🟡 partial (needs a unifying abstraction layer) �
 2. **`gospring-modulith`** — ✅ **DONE.** `cloud/modulith` model + boundary checker
    + in-process event bus, and the `gs-modulith` CLI that loads the real import
    graph via `go list` and fails on violations. Proven on a temp module in tests.
-3. Fill ❌ rows above, closest-existing-module-as-template each time.
+3. **`gospring-cache`** — ✅ **DONE.** `cloud/cache.BuildKey` key generator + the
+   `gs-cache-gen` generator emitting `@Cacheable`/`@CachePut`/`@CacheEvict`
+   cache-aside decorators over `cloud/cache`. Proven end to end against an
+   in-memory cache.
+4. Fill ❌ rows above, closest-existing-module-as-template each time. Next
+   highest-value: `gospring-scheduling` (`@Scheduled`/`@Async` codegen, reuses
+   the gs-cache-gen directive pattern), then GraphQL and Integration (EIP).
 
 > Conventions every module follows: `starter/DESIGN.md` + per-module `DESIGN`/`USAGE`.

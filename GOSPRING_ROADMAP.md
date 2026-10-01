@@ -67,7 +67,7 @@ Status legend: ✅ exists · 🟡 partial (needs a unifying abstraction layer) �
 ### Spring Security
 | Spring project | GoSpring module | Status |
 |---|---|---|
-| spring-security-core/web (authn/authz, method security) | `cloud/security` | ✅ Casbin |
+| spring-security-core/web (authn/authz, method security) | `cloud/security` (+ `cloud/security/web` filter chain) | ✅ Authentication/SecurityContext/Require + `HttpSecurity`-style SecurityFilterChain DSL (permitAll/authenticated/hasRole, 401/403, bearer resource-server) |
 | spring-security-oauth2-client/resource | `starter-*` oauth2 | ✅ |
 | spring-authorization-server | oauth2 server | ✅ |
 | spring-session | session-redis | ✅ |
@@ -143,7 +143,11 @@ Status legend: ✅ exists · 🟡 partial (needs a unifying abstraction layer) �
     /`@SendTo` dispatcher. WebSocket transport (starters) plugs in beneath it.
 11. **`gospring-restdocs`** — ✅ **DONE.** `cloud/restdocs`: test-driven API
     snippet generation with bidirectional field-coverage validation.
-12. Fill ❌ rows above, closest-existing-module-as-template each time. Remaining:
+12. **`gospring-security` web filter chain** — ✅ **DONE.** `cloud/security/web`:
+    the `HttpSecurity`/`SecurityFilterChain` DSL (ordered ant-matched access
+    rules, role/authority checks, 401 vs 403, bearer resource-server) binding the
+    existing `cloud/security` primitives into one cohesive module.
+13. Fill ❌ rows above, closest-existing-module-as-template each time. Remaining:
     GraphQL (needs an engine decision), SOAP web services, WebFlux (reactive),
     devtools.
 

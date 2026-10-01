@@ -1,5 +1,12 @@
 go 1.26.1
 
+// Pin the toolchain to go1.26.1: the governance-in-cloud refactor makes cloud
+// import spring/gs, whose gs-mock dependency pulls bytedance/mockey, and mockey
+// (<=v1.4.7) has no go1.27 runtime shims. go1.26.1 is the version every module
+// already declares and the one mockey supports, so the workspace builds cleanly
+// regardless of which newer go is installed on the machine.
+toolchain go1.26.1
+
 use (
 	./cloud
 	./cloud/experimental/loadtest/example

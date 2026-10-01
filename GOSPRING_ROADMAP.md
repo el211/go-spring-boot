@@ -88,7 +88,7 @@ Status legend: ✅ exists · 🟡 partial (needs a unifying abstraction layer) �
 | Spring project | GoSpring module | Status |
 |---|---|---|
 | spring-batch | `cloud/` batch + `starter-scheduler` | 🟡 |
-| spring-integration | `gospring-integration` (EIP) | ❌ |
+| spring-integration | `cloud/integration` (EIP) | ✅ Message/Channel/DirectChannel + filter/transform/split/route/bridge (aggregator + async channels pending) |
 | spring-amqp / spring-kafka / spring-pulsar | `starter-nats` + Kafka/Pulsar/Rabbit/RocketMQ/MQTT | ✅ |
 | spring-retry | `cloud/governance` (retry) | ✅ as governance |
 | spring-scheduling (`@Scheduled`/`@Async`) | `cloud/scheduling` + `gs-sched-gen` (`@Scheduled` codegen) + `scheduling.Submit`/`Future` (`@Async`) | ✅ codegen + async primitive, proven end to end |
@@ -129,7 +129,10 @@ Status legend: ✅ exists · 🟡 partial (needs a unifying abstraction layer) �
    choice, action-abort, listeners).
 6. **`gospring-shell`** — ✅ **DONE.** `cloud/shell`: command registry, REPL over
    injected reader/writer, quote-aware parsing, built-in help/exit. Fully tested.
-7. Fill ❌ rows above, closest-existing-module-as-template each time. Next
-   highest-value: Integration (EIP), GraphQL, HATEOAS.
+7. **`gospring-integration`** — ✅ **DONE.** `cloud/integration`: typed Message +
+   Channel/DirectChannel and the core EIP endpoints (filter/transform/split/
+   route/bridge/handle). Fully tested with a worked multi-stage flow.
+8. Fill ❌ rows above, closest-existing-module-as-template each time. Next
+   highest-value: GraphQL, HATEOAS, REST Docs.
 
 > Conventions every module follows: `starter/DESIGN.md` + per-module `DESIGN`/`USAGE`.

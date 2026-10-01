@@ -79,6 +79,14 @@ func (r Resource[T, ID]) entity(v T) *hateoas.EntityModel[T] {
 }
 
 func (r Resource[T, ID]) list(w http.ResponseWriter, req *http.Request) {
+	// When the client asks for a page (?size=) and the repository supports
+	// paging, serve a paged HAL collection instead of the full list.
+	if p, ok := parsePageable(req.URL.Query()); ok {
+		if repo, ok := r.pageable(); ok {
+			r.listPaged(w, req, repo, p)
+			return
+		}
+	}
 	items, err := r.Repo.FindAll(req.Context())
 	if err != nil {
 		fail(w, http.StatusInternalServerError, err)

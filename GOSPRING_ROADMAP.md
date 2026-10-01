@@ -60,7 +60,7 @@ Status legend: ✅ exists · 🟡 partial (needs a unifying abstraction layer) �
 | spring-data-mongodb | `starter-data-mongo` | 🟡 |
 | spring-data-redis | `starter-data-redis` | 🟡 go-redis/redigo exist |
 | spring-data-elasticsearch | `starter-data-elasticsearch` | 🟡 |
-| spring-data-rest | `gospring-data-rest` | ❌ |
+| spring-data-rest | `cloud/datarest` | ✅ exposes any `CrudRepository` as a HAL REST API over net/http (paging query params pending) |
 
 ### Spring Security
 | Spring project | GoSpring module | Status |

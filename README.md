@@ -1,8 +1,20 @@
-# Go-Spring: Make Go Service Development as Simple as Spring Boot, and Then Some
+# GoSpring Boot: Spring Boot for Go — a 1:1 Port of the Spring Ecosystem
 
 <div align="center">
  <img src="https://raw.githubusercontent.com/go-spring/go-spring/master/logo@h.png" width="140" alt="logo"/>
 </div>
+
+> ### This fork: porting Spring Boot's projects to Go, one for one
+>
+> This repository is a fork of [Go-Spring](https://github.com/go-spring/go-spring) with a specific goal: **reproduce each major Spring project as a `gospring-*` counterpart with the same developer-facing API.** On top of Go-Spring's existing IoC / config / lifecycle / Starter foundation (described below), it adds idiomatic-Go ports of Spring Data, Spring Modulith, Spring Security's filter chain, Spring Cache, Spring Scheduling, Spring StateMachine, Spring Shell, Spring Integration, Spring HATEOAS, Spring Messaging/STOMP, Spring REST Docs, Spring Web Services (SOAP), Spring Data REST and Spring GraphQL.
+>
+> The one unavoidable difference from the JVM: Spring's runtime magic — deriving `findByEmailAndStatus` from a method name, `@Cacheable`, `@Scheduled`, `@MessageMapping` — is reproduced with **build-time code generation** (the `gs-*-gen` tools) rather than runtime proxies or classpath scanning. The API you write matches Spring; the mechanism underneath is static, as a compiled language requires.
+>
+> **Configuration is the same too:** services configure through the layered engine with `application.yml` / `.properties` / `.toml` / `.json`, type-safe binding, and hot reload — just like Spring Boot.
+>
+> → **See [GOSPRING_MODULES.md](GOSPRING_MODULES.md)** for the 14 ported modules and **[GOSPRING_ROADMAP.md](GOSPRING_ROADMAP.md)** for the full Spring-to-GoSpring mapping and status.
+>
+> Everything below this box is the underlying Go-Spring foundation the port builds on.
 
 > **If you think this is just another Go framework, keep reading.**
 >

@@ -50,5 +50,6 @@ the same four lines expose a database table as a hypermedia API.
 ## Status
 
 - [x] CRUD routes over any `CrudRepository`, HAL responses, int64/string ids
-- [ ] Paging/sorting query params wired to `PagingAndSortingRepository`
+- [x] Paging/sorting query params (`?page=&size=&sort=`) with next/prev links
+- [ ] Exposing derived-query methods as search endpoints
 - [ ] Exposing derived-query methods as search endpoints

@@ -53,5 +53,6 @@ _ = integration.SendPayload(ctx, in, 42) // flows through filter â†’ transform â
 
 - [x] Message + headers, Channel, synchronous DirectChannel
 - [x] Filter, Transform, Split, Route, Bridge, Handle endpoints
-- [ ] Aggregator / resequencer (stateful correlation)
+- [x] Aggregator (stateful correlation, size-based release)
+- [ ] Resequencer and time-based release strategies
 - [ ] Queue/executor channels (asynchronous delivery) and poller endpoints

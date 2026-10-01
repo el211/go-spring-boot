@@ -55,5 +55,6 @@ m.Send(ctx, Push)                  // back to Locked
 
 - [x] Typed states/events, guarded transitions, transition/entry/exit actions
 - [x] Listeners and extended-state variables
-- [ ] Hierarchical (nested) states and regions (parallel states)
+- [x] Hierarchical (nested) states — `Substate(child, parent)` with event bubbling
+- [ ] Regions (parallel states)
 - [ ] Persistence / state-machine recovery

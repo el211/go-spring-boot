@@ -97,7 +97,7 @@ Status legend: ✅ exists · 🟡 partial (needs a unifying abstraction layer) �
 ### Spring Modulith  ← **second build target**
 | Spring project | GoSpring module | Status |
 |---|---|---|
-| spring-modulith (module boundaries, allowed-deps verification, module events, docs) | `gospring-modulith` | ❌ |
+| spring-modulith (module boundaries, allowed-deps verification, module events, docs) | `cloud/modulith` + `gs-modulith` verifier | ✅ model + boundary checker + event bus + `go list` verifier done; docs/async outbox pending |
 
 ### Other
 | Spring project | GoSpring module | Status |
@@ -112,8 +112,9 @@ Status legend: ✅ exists · 🟡 partial (needs a unifying abstraction layer) �
    `CrudRepository`, `PagingAndSortingRepository`, `Pageable`, `Sort`) + derived-query
    parser (`ParseMethod`), `starter-data-gorm` binding (`Query`→GORM translator +
    executors), and the `gs-data-gen` generator. Proven end to end over sqlite.
-2. **`gospring-modulith`** — module declaration, build-time allowed-dependency check,
-   in-process module events. Natural fit for Go's package/`internal` system.
+2. **`gospring-modulith`** — ✅ **DONE.** `cloud/modulith` model + boundary checker
+   + in-process event bus, and the `gs-modulith` CLI that loads the real import
+   graph via `go list` and fails on violations. Proven on a temp module in tests.
 3. Fill ❌ rows above, closest-existing-module-as-template each time.
 
 > Conventions every module follows: `starter/DESIGN.md` + per-module `DESIGN`/`USAGE`.

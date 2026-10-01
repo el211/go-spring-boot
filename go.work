@@ -234,14 +234,14 @@ use (
 	./starter/starter-gorm-sqlserver/example
 	./starter/starter-gorm-sqlserver/example-load
 	./starter/starter-gorm-sqlserver/example-otel
-	./starter/starter-governance
 	./starter/starter-governance-etcd
 	./starter/starter-governance-etcd/example
+	./starter/starter-governance-file
+	./starter/starter-governance-file/example
 	./starter/starter-governance-nacos
 	./starter/starter-governance-nacos/example
 	./starter/starter-governance-sentinel
 	./starter/starter-governance-sentinel/example
-	./starter/starter-governance/example
 	./starter/starter-graphql
 	./starter/starter-http-client
 	./starter/starter-http-client/example

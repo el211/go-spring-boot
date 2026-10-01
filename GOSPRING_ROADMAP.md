@@ -103,7 +103,7 @@ Status legend: ✅ exists · 🟡 partial (needs a unifying abstraction layer) �
 | Spring project | GoSpring module | Status |
 |---|---|---|
 | spring-shell | `gospring-shell` | ❌ |
-| spring-statemachine | `gospring-statemachine` | ❌ |
+| spring-statemachine | `cloud/statemachine` | ✅ typed FSM: guarded transitions, entry/exit/transition actions, listeners, extended state (hierarchical states pending) |
 | spring-rest-docs | `gospring-restdocs` | ❌ |
 
 ## Build order (each module is the template for the next)
@@ -123,7 +123,11 @@ Status legend: ✅ exists · 🟡 partial (needs a unifying abstraction layer) �
    `@Async` primitive) + the `gs-sched-gen` generator emitting a scheduler
    `Register` function from `//schedule:` directives (fixedRate/fixedDelay/cron).
    Proven end to end: generated registration fires jobs on a real scheduler.
-5. Fill ❌ rows above, closest-existing-module-as-template each time. Next
-   highest-value: GraphQL, Integration (EIP), Shell, Statemachine.
+5. **`gospring-statemachine`** — ✅ **DONE.** `cloud/statemachine`: typed FSM with
+   a fluent builder, guarded transitions, entry/exit/transition actions,
+   listeners and extended-state variables. Fully unit-tested (turnstile, guard
+   choice, action-abort, listeners).
+6. Fill ❌ rows above, closest-existing-module-as-template each time. Next
+   highest-value: GraphQL, Integration (EIP), Shell.
 
 > Conventions every module follows: `starter/DESIGN.md` + per-module `DESIGN`/`USAGE`.

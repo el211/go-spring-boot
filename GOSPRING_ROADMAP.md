@@ -50,7 +50,7 @@ Status legend: ✅ exists · 🟡 partial (needs a unifying abstraction layer) �
 | spring-webflux (reactive) | — | ❌ (Go uses goroutines, not reactive streams) |
 | spring-hateoas | `cloud/hateoas` | ✅ Link + Entity/Collection models + HAL `_links` serialisation (affordances pending) |
 | spring-graphql | `gospring-graphql` | ❌ |
-| spring-web-services (SOAP) | `gospring-ws` | ❌ |
+| spring-web-services (SOAP) | `cloud/ws` | ✅ SOAP 1.1 envelope + `@PayloadRoot` dispatch + typed endpoints + faults + net/http server (WSDL/SOAP 1.2 pending) |
 | spring-websocket (transport) | `starter-websocket` / `-coder` | ✅ (as starters) |
 | spring-messaging / STOMP | `cloud/stomp` | ✅ frame codec + SimpleBroker + `@MessageMapping`/`@SendTo` dispatcher (connection FSM + external relay pending) |
 
@@ -147,8 +147,10 @@ Status legend: ✅ exists · 🟡 partial (needs a unifying abstraction layer) �
     the `HttpSecurity`/`SecurityFilterChain` DSL (ordered ant-matched access
     rules, role/authority checks, 401 vs 403, bearer resource-server) binding the
     existing `cloud/security` primitives into one cohesive module.
-13. Fill ❌ rows above, closest-existing-module-as-template each time. Remaining:
-    GraphQL (needs an engine decision), SOAP web services, WebFlux (reactive),
+13. **`gospring-ws`** — ✅ **DONE.** `cloud/ws`: contract-first SOAP endpoints
+    (SOAP 1.1 envelope, `@PayloadRoot` dispatch, typed handlers, faults, server).
+14. Fill ❌ rows above, closest-existing-module-as-template each time. Remaining:
+    GraphQL (needs an engine decision), WebFlux (reactive — poor fit for Go),
     devtools.
 
 > Conventions every module follows: `starter/DESIGN.md` + per-module `DESIGN`/`USAGE`.

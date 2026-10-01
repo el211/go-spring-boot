@@ -49,7 +49,7 @@ Status legend: ✅ exists · 🟡 partial (needs a unifying abstraction layer) �
 | spring-webmvc | `starter-gin`/`-echo`/`-http-server` | ✅ (as starters) |
 | spring-webflux (reactive) | — | ❌ (Go uses goroutines, not reactive streams) |
 | spring-hateoas | `cloud/hateoas` | ✅ Link + Entity/Collection models + HAL `_links` serialisation (affordances pending) |
-| spring-graphql | `gospring-graphql` | ❌ |
+| spring-graphql | `starter-graphql` (on graphql-go) | ✅ query/mutation builder + GraphQL-over-HTTP endpoint (SDL-first + subscriptions pending) |
 | spring-web-services (SOAP) | `cloud/ws` | ✅ SOAP 1.1 envelope + `@PayloadRoot` dispatch + typed endpoints + faults + net/http server (WSDL/SOAP 1.2 pending) |
 | spring-websocket (transport) | `starter-websocket` / `-coder` | ✅ (as starters) |
 | spring-messaging / STOMP | `cloud/stomp` | ✅ frame codec + SimpleBroker + `@MessageMapping`/`@SendTo` dispatcher (connection FSM + external relay pending) |

@@ -51,6 +51,8 @@ Status legend: ✅ exists · 🟡 partial (needs a unifying abstraction layer) �
 | spring-hateoas | `cloud/hateoas` | ✅ Link + Entity/Collection models + HAL `_links` serialisation (affordances pending) |
 | spring-graphql | `gospring-graphql` | ❌ |
 | spring-web-services (SOAP) | `gospring-ws` | ❌ |
+| spring-websocket (transport) | `starter-websocket` / `-coder` | ✅ (as starters) |
+| spring-messaging / STOMP | `cloud/stomp` | ✅ frame codec + SimpleBroker + `@MessageMapping`/`@SendTo` dispatcher (connection FSM + external relay pending) |
 
 ### Spring Data  ← **first build target**
 | Spring project | GoSpring module | Status |
@@ -134,7 +136,12 @@ Status legend: ✅ exists · 🟡 partial (needs a unifying abstraction layer) �
    route/bridge/handle). Fully tested with a worked multi-stage flow.
 8. **`gospring-hateoas`** — ✅ **DONE.** `cloud/hateoas`: Link + Entity/Collection
    models rendering HAL `_links`. Fully tested.
-9. Fill ❌ rows above, closest-existing-module-as-template each time. Next
-   highest-value: GraphQL, REST Docs, devtools.
+9. **`gospring-data-rest`** — ✅ **DONE.** `cloud/datarest`: any `CrudRepository`
+   exposed as a HAL REST API over net/http, composing GoSpring Data + HATEOAS.
+10. **`gospring-stomp`** — ✅ **DONE.** `cloud/stomp`: STOMP frame codec,
+    destination `SimpleBroker`, `SimpMessagingTemplate` and an `@MessageMapping`
+    /`@SendTo` dispatcher. WebSocket transport (starters) plugs in beneath it.
+11. Fill ❌ rows above, closest-existing-module-as-template each time. Next
+    highest-value: GraphQL, REST Docs, devtools.
 
 > Conventions every module follows: `starter/DESIGN.md` + per-module `DESIGN`/`USAGE`.

@@ -66,6 +66,7 @@ type Machine[S, E comparable] struct {
 	table     map[S]map[E][]transition[S, E]
 	onEntry   map[S][]Action[S, E]
 	onExit    map[S][]Action[S, E]
+	parents   map[S]S
 	listeners []func(from, to S, event E)
 	varsMu    sync.RWMutex
 	vars      map[string]any
@@ -121,17 +122,27 @@ func (m *Machine[S, E]) Send(ctx context.Context, event E) (bool, error) {
 	return true, nil
 }
 
-// match returns the first transition from the current state for event whose
-// guard permits, or nil. Caller holds mu.
+// match returns the first transition for event whose guard permits, searching
+// the current state and then — for hierarchical machines — each ancestor, so a
+// transition declared on a superstate applies to its substates. Caller holds mu.
 func (m *Machine[S, E]) match(ctx context.Context, event E) *transition[S, E] {
-	for i := range m.table[m.current][event] {
-		t := &m.table[m.current][event][i]
-		ec := EventContext[S, E]{From: m.current, Event: event, To: t.to, Machine: m}
-		if t.guard == nil || t.guard(ctx, ec) {
-			return t
+	state := m.current
+	seen := map[S]bool{}
+	for {
+		for i := range m.table[state][event] {
+			t := &m.table[state][event][i]
+			ec := EventContext[S, E]{From: m.current, Event: event, To: t.to, Machine: m}
+			if t.guard == nil || t.guard(ctx, ec) {
+				return t
+			}
 		}
+		parent, ok := m.parents[state]
+		if !ok || seen[parent] { // reached the root, or a cycle guard
+			return nil
+		}
+		seen[state] = true
+		state = parent
 	}
-	return nil
 }
 
 func runAll[S, E comparable](ctx context.Context, actions []Action[S, E], ec EventContext[S, E]) error {

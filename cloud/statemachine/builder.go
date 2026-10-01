@@ -32,6 +32,7 @@ type Builder[S, E comparable] struct {
 	last      *transition[S, E]
 	onEntry   map[S][]Action[S, E]
 	onExit    map[S][]Action[S, E]
+	parents   map[S]S
 	listeners []func(from, to S, event E)
 }
 
@@ -41,7 +42,17 @@ func New[S, E comparable](initial S) *Builder[S, E] {
 		initial: initial,
 		onEntry: map[S][]Action[S, E]{},
 		onExit:  map[S][]Action[S, E]{},
+		parents: map[S]S{},
 	}
+}
+
+// Substate declares child as a substate of parent, the analog of Spring
+// Statemachine's hierarchical (nested) states. An event with no transition
+// defined on the current (child) state bubbles up to parent's transitions, so a
+// shared transition declared on the superstate applies to all its substates.
+func (b *Builder[S, E]) Substate(child, parent S) *Builder[S, E] {
+	b.parents[child] = parent
+	return b
 }
 
 // Permit adds a transition from -> to on event. Chain [Builder.When] and
@@ -104,6 +115,7 @@ func (b *Builder[S, E]) Build() *Machine[S, E] {
 		table:     table,
 		onEntry:   b.onEntry,
 		onExit:    b.onExit,
+		parents:   b.parents,
 		listeners: b.listeners,
 		vars:      map[string]any{},
 	}
